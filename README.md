@@ -46,11 +46,11 @@ Aqui é implementado um simples aplicativo de mensagens entre cliente e servidor
 #### Execução Cliente
 
 ```bash
-    python src/msg_client.py
+python src/msg_client.py
 ```
 
 #### Execução Servidor
 
 ```bash
-    python src/msg_server.py
+python src/msg_server.py
 ```
