@@ -3,6 +3,7 @@
 
 import socket
 import subprocess
+import threading
 
 TCP_PORTA = 10190
 SERVER_HOST = "0.0.0.0"
@@ -21,34 +22,47 @@ def main():
             while True:
                 connection, address = server.accept()
                 print(f"Conexao de {address[0]}:{address[1]}")
-
-                with connection:
-                    handle_client(connection)
-
-                print(f"Conexao encerrada para {address[0]}:{address[1]}")
+                handle_client(connection, address)
         except KeyboardInterrupt:
             print("\nServidor encerrado.")
 
 
-def handle_client(connection):
+def handle_client(connection, address):
     reader = connection.makefile("r", encoding="utf-8", newline="\n")
     writer = connection.makefile("w", encoding="utf-8", newline="\n")
 
-    try:
-        password = reader.readline()
-        if not password:
-            return
+    password = reader.readline()
+    if not password:
+        writer.close()
+        reader.close()
+        connection.close()
+        return
 
-        if password.strip() == SERVER_PASSWORD:
-            writer.write("AUTENTICADO\n")
-            writer.flush()
-            repl(reader, writer)
-        else:
-            writer.write("SENHA_INVALIDA\n")
-            writer.flush()
+    if password.strip() != SERVER_PASSWORD:
+        writer.write("SENHA_INVALIDA\n")
+        writer.flush()
+        writer.close()
+        reader.close()
+        connection.close()
+        return
+
+    writer.write("AUTENTICADO\n")
+    writer.flush()
+
+    thread = threading.Thread(target=client_session,
+                              args=(connection, address, reader, writer),
+                              daemon=True)
+    thread.start()
+
+
+def client_session(connection, address, reader, writer):
+    try:
+        repl(reader, writer)
     finally:
         writer.close()
         reader.close()
+        connection.close()
+        print(f"Conexao encerrada para {address[0]}:{address[1]}")
 
 
 def repl(reader, writer):
