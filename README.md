@@ -13,6 +13,7 @@ Este laboratório se trata da implementação do conceito de sockets, a implemen
 ### Vídeos
 
  - Exercícios 1 e 2: https://www.youtube.com/watch?v=ejHOanxZpoo
+ - Exercício 3: https://youtu.be/AYCaQvvuH8w
 
 ### Exercicio 1
 
@@ -46,11 +47,31 @@ Aqui é implementado um simples aplicativo de mensagens entre cliente e servidor
 #### Execução Cliente
 
 ```bash
-python src/msg_client.py
+python ex12/msg_client.py
 ```
 
 #### Execução Servidor
 
 ```bash
-python src/msg_server.py
+python ex12/msg_server.py
 ```
+
+### Exercicio 3
+
+#### Contexto
+
+Aqui é implementado um simples aplicativo de controle remoto baseado em terminal, similar a ssh ou telnet, utilizando TCP para garantir que as mensagens sejam transmitidas sem erro.
+
+
+#### Execução Cliente
+
+```bash
+python ex3/client.py
+```
+
+#### Execução Servidor
+
+```bash
+python ex3/server.py
+```
+
