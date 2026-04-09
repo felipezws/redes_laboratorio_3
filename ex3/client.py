@@ -14,6 +14,7 @@ def main():
         print("Nao foi possivel estabelecer uma conexao TCP com o servidor.")
         return
 
+    # streams pra trocar mensagens linha a linha com o servidor
     reader = client.makefile("r", encoding="utf-8", newline="\n")
     writer = client.makefile("w", encoding="utf-8", newline="\n")
 
@@ -46,6 +47,7 @@ def main():
             if command == "terminar":
                 break
 
+            # le a resposta ate encontrar o marcador de fim
             while True:
                 response = reader.readline()
                 if not response:

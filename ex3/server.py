@@ -49,6 +49,7 @@ def handle_client(connection, address):
     writer.write("AUTENTICADO\n")
     writer.flush()
 
+    # cada cliente autenticado tem uma thread propria
     thread = threading.Thread(target=client_session,
                               args=(connection, address, reader, writer),
                               daemon=True)
@@ -75,13 +76,16 @@ def repl(reader, writer):
             break
 
         try:
+            # junta stdout e stderr pra devolver uma unica resposta ao cliente
             result = subprocess.run(command.strip().split(" "),
                                     stdout=subprocess.PIPE,
                                     stderr=subprocess.STDOUT,
                                     timeout=5, text=True)
             combined_output = result.stdout
+            # mantem a saida alinhada com o protocolo baseado em linhas
             if combined_output and not combined_output.endswith("\n"):
                 combined_output += "\n"
+            # marca explicitamente o fim da resposta
             writer.write(combined_output)
             writer.write("<<FIM>>\n")
             writer.flush()
