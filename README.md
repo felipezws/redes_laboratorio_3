@@ -8,7 +8,7 @@
 
 ### Introdução
 
-Este laboratório se trata da implementação do conceito de sockets, a implementação dos códigos apresentados e as respotas às perguntas reforçãm o conhecimento de redes de maneira mais prática.
+Este laboratório se trata da implementação do conceito de sockets, a implementação dos códigos apresentados e as respotas às perguntas reforçam o conhecimento sobre redes de maneira mais prática.
 
 ### Vídeos
 
